@@ -8,13 +8,18 @@ HEIGHT = 600
 # 색깔 정의
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+PINK = (255,153,153)
+BLUE = (0,51,255)
+
+
 
 # 적 비행기 클래스
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((30, 30))  # 작은 원을 위한 Surface 생성
-        self.image.fill(WHITE)  # 흰색으로 채움
+        self.image.fill(PINK)  # 흰색으로 채움
         self.rect = self.image.get_rect()
 
         self.shoot_timer = random.randint(2000, 4000)  # 총알 발사 타이머
@@ -48,7 +53,7 @@ class BulletFromEnemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pygame.Surface((10, 20))  # 작은 직사각형을 위한 Surface 생성
-        self.image.fill(WHITE)  # 흰색으로 채움
+        self.image.fill(RED)  # 흰색으로 채움
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -63,7 +68,7 @@ class BulletFromPlayer(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pygame.Surface((10, 20))  # 작은 직사각형을 위한 Surface 생성
-        self.image.fill(WHITE)  # 흰색으로 채움
+        self.image.fill(BLUE)  # 흰색으로 채움
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -148,6 +153,7 @@ global running
 running = True
 clock = pygame.time.Clock()
 
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -160,7 +166,9 @@ while running:
 
     # 충돌 체크
     hits = pygame.sprite.spritecollide(player, bullet_from_enemy_sprites, False)
-    if hits :
+    hits_with_enemy = pygame.sprite.spritecollide(player, enemy_sprites, False)
+
+    if hits or hits_with_enemy :
         running = False
 
 
@@ -178,4 +186,4 @@ while running:
     clock.tick(60)
 
 # 게임 종료
-pygame.quit()
+#pygame.quit()
