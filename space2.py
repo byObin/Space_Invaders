@@ -54,7 +54,7 @@ class BulletFromEnemy(pygame.sprite.Sprite):
         self.rect.y = y
 
     def update(self):
-        self.rect.y -= 5  # 총알의 속도를 5로 감소
+        self.rect.y += 10  # 총알의 속도를 5로 감소
         if self.rect.y < 0:
             self.kill()
 
