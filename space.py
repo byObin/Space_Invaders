@@ -9,6 +9,7 @@ HEIGHT = 600
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+
 # 적 비행기 클래스
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -38,6 +39,22 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
 
+# 총알 클래스
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((10, 10))  # 작은 원을 위한 Surface 생성
+        self.image.fill(WHITE)  # 흰색으로 채움
+        self.circle = self.image.get_circle()
+
+    def update(self):
+        self.circle.y += 3
+        if self.circle.y > HEIGHT:
+            self.circle.y = random.randrange(-100, -10)
+            self.circle.x = random.randrange(0, WIDTH)
+            global score
+            score += 1
+
 # 초기화
 pygame.init()
 
@@ -53,6 +70,9 @@ all_sprites = pygame.sprite.Group()
 
 # 적 비행기 그룹 생성
 enemy_sprites = pygame.sprite.Group()
+
+# 총알 그룹 생성
+bullet_sprites = pygame.sprite.Group()
 
 # 플레이어 생성
 player = Player()
@@ -83,6 +103,10 @@ while running:
         all_sprites.add(enemy)
         enemy_sprites.add(enemy)
         enemy_spawn_counter = 0
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(pygame.mouse.get_pos())
 
     # 게임 로직 업데이트
     all_sprites.update()
