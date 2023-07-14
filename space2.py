@@ -13,7 +13,6 @@ PINK = (255,153,153)
 BLUE = (0,51,255)
 
 
-
 # 적 비행기 클래스
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -97,6 +96,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH // 2
         self.rect.bottom = HEIGHT - 10
         self.speed = 5
+        self.shooting = False  # 총알 발사 상태
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -146,6 +146,25 @@ for i in range(10):
     all_sprites.add(enemy)
     enemy_sprites.add(enemy)
 
+# 게임 시작 대기 화면
+waiting = True
+while waiting:
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            waiting = False
+
+    screen.fill(BLACK)
+    start_text = font.render("WELCOME TO SPACE INVADERS", True, WHITE)
+    start_text_1 = font.render("...Press any keyboard key to start...", True, WHITE)
+    start_text_2 = font.render("<-   -> : move         space bar : fire", True, WHITE)
+
+    screen.blit(start_text, (WIDTH // 2 - start_text.get_width() // 2, HEIGHT // 2 - start_text.get_height() // 2 - 40))
+    screen.blit(start_text_1, (WIDTH // 2 - start_text_1.get_width() // 2, HEIGHT // 2 - start_text_1.get_height() // 2))
+    screen.blit(start_text_2, (WIDTH // 2 - start_text_2.get_width() // 2, HEIGHT // 2 - start_text_2.get_height() // 2 + 50))
+
+    pygame.display.flip()
+
+
 # 게임 상태 변수
 global score 
 score = 0
@@ -154,12 +173,15 @@ running = True
 clock = pygame.time.Clock()
 
 
+
+
 while running:
+    waiting = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            player.shoot()  # 스페이스 바를 누르면 플레이어가 총알을 발사
+                player.shoot()  # 스페이스 바를 누르면 플레이어가 총알을 발사
 
     # 게임 로직 업데이트
     all_sprites.update()
@@ -167,7 +189,6 @@ while running:
     # 충돌 체크
     hits = pygame.sprite.spritecollide(player, bullet_from_enemy_sprites, False)
     hits_with_enemy = pygame.sprite.spritecollide(player, enemy_sprites, False)
-
     if hits or hits_with_enemy :
         running = False
 
@@ -184,6 +205,9 @@ while running:
 
     # 초당 프레임 수 설정
     clock.tick(60)
+
+
+    
 
 # 게임 종료
 #pygame.quit()
