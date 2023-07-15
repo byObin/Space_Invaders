@@ -17,8 +17,8 @@ BLUE = (0,51,255)
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((30, 30))  # 작은 원을 위한 Surface 생성
-        self.image.fill(PINK)  # 흰색으로 채움
+        self.image = pygame.Surface((30, 30)) 
+        self.image.fill(PINK)  
         self.rect = self.image.get_rect()
 
         self.shoot_timer = random.randint(2000, 4000)  # 총알 발사 타이머
@@ -47,18 +47,19 @@ class Enemy(pygame.sprite.Sprite):
         all_sprites.add(bullet)
         bullet_from_enemy_sprites.add(bullet)
 
+
 # 적 비행기에서 발사되는 총알 클래스
 class BulletFromEnemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.Surface((10, 20))  # 작은 직사각형을 위한 Surface 생성
-        self.image.fill(RED)  # 흰색으로 채움
+        self.image = pygame.Surface((10, 20))  
+        self.image.fill(RED)  
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
     def update(self):
-        self.rect.y += 10  # 총알의 속도를 5로 감소
+        self.rect.y += 10  # 총알의 속도 10으로 설정
         if self.rect.y < 0:
             self.kill()
 
@@ -90,8 +91,8 @@ class BulletFromPlayer(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((30, 30))  # 작은 원을 위한 Surface 생성
-        self.image.fill(WHITE)  # 흰색으로 채움
+        self.image = pygame.Surface((30, 30)) 
+        self.image.fill(WHITE)  
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH // 2
         self.rect.bottom = HEIGHT - 10
@@ -172,9 +173,7 @@ global running
 running = True
 clock = pygame.time.Clock()
 
-
-
-
+# 게임 플레이
 while running:
     waiting = False
     for event in pygame.event.get():
@@ -205,9 +204,6 @@ while running:
 
     # 초당 프레임 수 설정
     clock.tick(60)
-
-
-    
 
 # 게임 종료
 #pygame.quit()
